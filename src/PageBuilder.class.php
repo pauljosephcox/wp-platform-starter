@@ -10,7 +10,7 @@ class PageBuilder {
 
     function __construct(){
 		
-		// Create Blocks
+		// Create ACF Blocks
 		$this->blocks['sample-block'] = new SampleBlock();
 
 		// Patterns
@@ -24,8 +24,6 @@ class PageBuilder {
 		// Register Patterns
 		add_action( 'init', array($this,'register_patterns') );
 
-
-		
 
 	}
 	
