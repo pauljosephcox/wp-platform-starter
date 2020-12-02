@@ -1,5 +1,5 @@
 <?php
-namespace ASOTA;
+namespace WPPlatform;
 
 class Util {
 
