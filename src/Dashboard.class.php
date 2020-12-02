@@ -9,15 +9,18 @@ class Dashboard {
 	 */
 
     function __construct($env){
-        $this->path    = plugin_dir_path(__FILE__);
+		$this->path    = plugin_dir_path(__FILE__);
+		$this->url     = plugin_dir_url(__FILE__);
 		$this->slug = 'dashboard';
 		$this->title = 'Dashboard';
 		$this->env = $env;
 		$this->remove_admin_pages = array('plugins.php','edit.php?post_type=acf-field-group');
-		
+		$this->version = '0.0.1';
 		add_filter( 'admin_title', array( $this, 'page_title' ), 10, 2 );
         add_action( 'current_screen', array( $this, 'redirect' ) );
-        add_action( 'admin_menu', array($this,'menus'));
+		add_action( 'admin_menu', array($this,'menus'));
+		add_action( 'admin_enqueue_scripts', array($this,'custom_admin_theme'));
+		add_action( 'login_enqueue_scripts', array($this,'custom_admin_theme'));
     }
 
     public function page_title($admin_title, $title){
@@ -61,6 +64,13 @@ class Dashboard {
 		if($this->env === 'production'){
 			foreach($this->remove_admin_pages as $page) remove_menu_page($page);
 		}
+
+	}
+
+	public function custom_admin_theme(){
+
+		wp_enqueue_script('wpplatform.js', $this->url .'assets/dashboard.js',null,$this->version,true);
+		wp_enqueue_style('wpplatform.css', $this->url .'assets/dashboard.css',null,$this->version);
 
 	}
 	
